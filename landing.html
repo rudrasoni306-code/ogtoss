@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OG Toss Prediction | Telegram Channel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gold: #F5C842;
+      --gold-light: #FFE27A;
+      --dark-gold: #C8992A;
+      --navy: #0B0F1E;
+      --navy-mid: #121929;
+      --navy-card: #1A2238;
+      --navy-border: #243050;
+      --blue-glow: #2AABEE;
+      --text: #F0F4FF;
+      --muted: #8896B4;
+    }
+
+    body {
+      background: var(--navy);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-x: hidden;
+    }
+
+    /* Radial gold glow at top */
+    body::before {
+      content: '';
+      position: fixed;
+      top: -180px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(245,200,66,0.10) 0%, transparent 65%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Blue glow bottom */
+    body::after {
+      content: '';
+      position: fixed;
+      bottom: -200px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(42,171,238,0.09) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 520px;
+      padding: 40px 24px 64px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 28px;
+    }
+
+    /* ---- LOGO ---- */
+    .logo-wrap {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 3px solid var(--dark-gold);
+      box-shadow:
+        0 0 0 6px rgba(245,200,66,0.12),
+        0 0 36px rgba(245,200,66,0.35),
+        0 0 70px rgba(42,171,238,0.18);
+      animation: pulse-glow 3s ease-in-out infinite;
+    }
+    .logo-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 0 6px rgba(245,200,66,0.12), 0 0 36px rgba(245,200,66,0.35), 0 0 70px rgba(42,171,238,0.18); }
+      50%       { box-shadow: 0 0 0 8px rgba(245,200,66,0.20), 0 0 52px rgba(245,200,66,0.55), 0 0 90px rgba(42,171,238,0.28); }
+    }
+
+    /* ---- EYEBROW ---- */
+    .eyebrow {
+      font-size: 0.72rem;
+      letter-spacing: 0.20em;
+      text-transform: uppercase;
+      color: var(--blue-glow);
+      font-weight: 600;
+    }
+
+    /* ---- HEADLINE ---- */
+    h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3.2rem, 14vw, 5.2rem);
+      line-height: 0.9;
+      letter-spacing: 0.03em;
+      background: linear-gradient(135deg, #FFE27A 0%, #fff8e1 45%, #C8992A 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .tagline {
+      font-size: 1rem;
+      color: var(--muted);
+      line-height: 1.6;
+      max-width: 360px;
+    }
+    .tagline strong { color: var(--text); }
+
+    /* ---- IPL BADGE ---- */
+    .ipl-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(135deg, rgba(245,200,66,0.15), rgba(200,153,42,0.10));
+      border: 1px solid var(--dark-gold);
+      border-radius: 50px;
+      padding: 10px 24px;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--gold-light);
+      letter-spacing: 0.04em;
+      box-shadow: 0 0 18px rgba(245,200,66,0.2);
+    }
+    .ipl-badge .trophy { font-size: 1.3rem; }
+
+    /* ---- STATS ROW ---- */
+    .stats {
+      display: flex;
+      gap: 0;
+      width: 100%;
+      background: var(--navy-card);
+      border: 1px solid var(--navy-border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .stat {
+      flex: 1;
+      padding: 18px 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      border-right: 1px solid var(--navy-border);
+    }
+    .stat:last-child { border-right: none; }
+    .stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      color: var(--gold);
+      letter-spacing: 0.04em;
+    }
+    .stat-label {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+    }
+
+    /* ---- FEATURES ---- */
+    .features {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .feature {
+      background: var(--navy-card);
+      border: 1px solid var(--navy-border);
+      border-radius: 12px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-align: left;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .feature:hover {
+      border-color: var(--dark-gold);
+      box-shadow: 0 0 12px rgba(245,200,66,0.15);
+    }
+    .feat-icon { font-size: 1.5rem; flex-shrink: 0; }
+    .feat-text strong {
+      display: block;
+      font-size: 0.9rem;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+    .feat-text span { font-size: 0.78rem; color: var(--muted); }
+
+    /* ---- CTA ---- */
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--blue-glow);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.1rem;
+      padding: 16px 36px;
+      border-radius: 50px;
+      letter-spacing: 0.01em;
+      box-shadow: 0 4px 28px rgba(42,171,238,0.40);
+      transition: transform 0.15s, box-shadow 0.15s;
+      width: 100%;
+      justify-content: center;
+      max-width: 380px;
+    }
+    .cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 40px rgba(42,171,238,0.60);
+    }
+    .cta-btn:active { transform: translateY(0); }
+    .tg-icon { width: 26px; height: 26px; fill: #fff; flex-shrink: 0; }
+
+    .fine { font-size: 0.72rem; color: var(--muted); }
+
+    /* Decorative star divider */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      max-width: 320px;
+      color: var(--navy-border);
+      font-size: 0.8rem;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--navy-border);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- Logo -->
+    <div class="logo-wrap">
+      <img src="og-toss-logo.png" alt="OG Toss Prediction Logo" />
+    </div>
+
+    <!-- Headline -->
+    <div>
+      <p class="eyebrow">Telegram • Free to Join</p>
+      <h1>OG Toss<br>Prediction</h1>
+    </div>
+
+    <!-- Tagline -->
+    <p class="tagline">
+      Get <strong>accurate toss predictions</strong> before every match —
+      delivered straight to your Telegram before the coin hits the air.
+    </p>
+
+    <!-- IPL badge -->
+    <div class="ipl-badge">
+      <span class="trophy">🏆</span>
+      IPL — 49/50 Toss Pass
+    </div>
+
+    <!-- Stats -->
+    <div class="stats">
+      <div class="stat">
+        <span class="stat-num">98%</span>
+        <span class="stat-label">IPL Accuracy</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">Daily</span>
+        <span class="stat-label">Updates</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">Free</span>
+        <span class="stat-label">Access</span>
+      </div>
+    </div>
+
+    <!-- Features -->
+    <div class="features">
+      <div class="feature">
+        <span class="feat-icon">⚡</span>
+        <div class="feat-text">
+          <strong>Pre-match Toss Tips</strong>
+          <span>Predictions posted before every match starts</span>
+        </div>
+      </div>
+      <div class="feature">
+        <span class="feat-icon">📊</span>
+        <div class="feat-text">
+          <strong>Match Analysis</strong>
+          <span>Pitch conditions, weather &amp; team stats breakdown</span>
+        </div>
+      </div>
+      <div class="feature">
+        <span class="feat-icon">🔔</span>
+        <div class="feat-text">
+          <strong>Instant Notifications</strong>
+          <span>Never miss a prediction — Telegram alerts every time</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <div class="divider">★</div>
+
+    <!-- CTA -->
+    <a class="cta-btn" href="https://t.me/+RIijHCAg8BVmOTg1" target="_blank" rel="noopener">
+      <svg class="tg-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M11.944 0A12 12 0 1 0 24 12 12 12 0 0 0 11.944 0ZM18.85 8.115l-2.042 9.62c-.15.673-.55.836-1.114.52l-3.08-2.27-1.487 1.43a.77.77 0 0 1-.617.3l.22-3.1 5.64-5.094c.245-.218-.053-.34-.38-.12L6.44 14.33l-3.04-.95c-.66-.207-.673-.66.138-.976l11.87-4.578c.55-.2 1.03.134.85.976-.001 0 0 0-.407 1.314Z"/>
+      </svg>
+      Join OG Toss Channel
+    </a>
+
+    <p class="fine">Free · No signup · Opens in Telegram</p>
+
+  </div>
+</body>
+</html>
